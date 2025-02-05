@@ -738,3 +738,144 @@ local function disableLaggyFeatures()
         end
     end
 end
+local utilitiesTab = Window:MakeTab({
+    Name = "Configurações",
+    Icon = "rbxassetid://140270687691975",
+    PremiumOnly = false
+});
+
+utilitiesTab:AddToggle({
+    Name = "Anti Sit",
+    Default = true,
+    Callback = function(value)
+        if value then
+            RunService.Stepped:Connect(function()
+                if (LocalPlayer.Character and
+                    LocalPlayer.Character:FindFirstChild("Humanoid")) then
+                    if LocalPlayer.Character.Humanoid.Sit then
+                        LocalPlayer.Character.Humanoid.Sit = false;
+                    end
+                end
+            end);
+        end
+    end
+});
+utilitiesTab:AddToggle({
+    Name = "Anti Void",
+    Default = true,
+    Callback = function(value)
+        if value then
+            RunService.Stepped:Connect(function()
+                if (LocalPlayer.Character and
+                    LocalPlayer.Character:FindFirstChild(
+                        "HumanoidRootPart")) then
+                    if (LocalPlayer.Character.HumanoidRootPart
+                        .Position.Y < -50) then
+                        LocalPlayer.Character.HumanoidRootPart
+                            .CFrame = CFrame.new(0, 50, 0);
+                    end
+                end
+            end);
+        end
+    end
+});
+utilitiesTab:AddToggle({
+    Name = "Auto Rejoin",
+    Default = true,
+    Callback = function(value)
+        if value then
+            game:GetService("CoreGui").RobloxPromptGui.promptOverlay
+                .ChildAdded:Connect(function(child)
+                if (child.Name == "ErrorPrompt") then
+                    TeleportService:Teleport(game.PlaceId,
+                                                LocalPlayer);
+                end
+            end);
+        end
+    end
+});
+utilitiesTab:AddToggle({
+    Name = "Anti Lag",
+    Default = true,
+    Callback = function(value)
+        if value then
+            disableLaggyFeatures();
+            workspace.DescendantAdded:Connect(
+                function(descendant)
+                    if (descendant:IsA("ParticleEmitter") or
+                        descendant:IsA("Trail") or
+                        descendant:IsA("Smoke") or
+                        descendant:IsA("Fire")) then
+                        descendant.Enabled = false;
+                    end
+                end);
+        end
+    end
+});
+local Section = utilitiesTab:AddSection({Name = "Settings"});
+utilitiesTab:AddButton({
+    Name = "Teleporta Pro Spaw",
+    Callback = function()
+        if (LocalPlayer.Character and
+            LocalPlayer.Character:FindFirstChild("HumanoidRootPart")) then
+            LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(0, 50, 0);
+        end
+    end
+});
+local function removeLag()
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") then
+            if not part.Visible then
+                part:Destroy();
+            elseif (part.Transparency >= 1) then
+                part:Destroy();
+            end
+        end
+    end
+    for _, light in pairs(workspace:GetDescendants()) do
+        if light:IsA("Light") then
+            if (not light.Parent or not light.Parent.Parent) then
+                light:Destroy();
+            end
+        end
+    end
+    for _, texture in pairs(workspace:GetDescendants()) do
+        if texture:IsA("Texture") then
+            if (texture.Parent and not texture.Parent.Visible) then
+                texture:Destroy();
+            end
+        end
+    end
+    OrionLib:MakeNotification({
+        Name = "Removendo...",
+        Content = "Texturas, luzes e objetos invisÃ­veis foram removidos.",
+        Time = 5
+    });
+end
+utilitiesTab:AddButton({
+    Name = "Remover Lag",
+    Callback = function() removeLag(); end
+});
+game:GetService("RunService").RenderStepped:Connect(updateESP);
+updatePlayerList(playerDropdown);
+RunService.RenderStepped:Connect(updateFPS);
+OrionLib:Init();
+print("Hi World :D");
+local function detectExploits()
+    local exploitCount = 0;
+    for _, player in ipairs(Players:GetPlayers()) do
+        if (player:FindFirstChild("HumanoidRootPart") and
+            player.HumanoidRootPart.Anchored) then
+            exploitCount = exploitCount + 1;
+        end
+    end
+    return exploitCount;
+end
+local function updateExploitCount()
+    local exploitCount = detectExploits();
+    exploitCountLabel:Set("Exploit Quantos: " .. exploitCount);
+end
+Players.PlayerAdded:Connect(updateExploitCount);
+Players.PlayerRemoving:Connect(updateExploitCount);
+updateExploitCount();
