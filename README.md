@@ -1,133 +1,41 @@
-local Sound = Instance.new("Sound", game:GetService("SoundService"));
-Sound.SoundId = "rbxassetid://232127604";
-Sound:Play();
-local args1 = {[1] = "RolePlayName", [2] = "Gui Slowed"};
-game:GetService("ReplicatedStorage").RE:FindFirstChild(
-    "1RPNam1eTex1t"):FireServer(unpack(args1));
-local args = {
-    [1] = "PickingRPNameColor",
-    [2] = Color3.fromRGB(194, 56, 164)
-};
-game:GetService("ReplicatedStorage").RE:FindFirstChild(
-    "1RPNam1eColo1r"):FireServer(unpack(args));
-local args4 = {[1] = "RolePlayBio", [2] = "Slowed Studios"};
-game:GetService("ReplicatedStorage").RE:FindFirstChild(
-    "1RPNam1eTex1t"):FireServer(unpack(args4));
-local OrionLib = loadstring(game:HttpGet(
-                                "https://you.whimper.xyz/sources/slowed/0"))();
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
-    Name = "Slayer Hub",
+    Name = "Slayer Hub| PREMIUM",
     HidePremium = false,
     SaveConfig = true,
-    ConfigFolder = "XScriptHub",
-    IntroText = "Slowed Studios"
-});
-local CRD = Window:MakeTab({
-    Name = "informaÃ§Ãµes",
-    Icon = "rbxassetid://15764521947",
-    PremiumOnly = false
-});
-local HH = Window:MakeTab({
-    Name = "InÃ­cio",
-    Icon = "rbxassetid://15764493661",
-    PremiumOnly = false
-});
-local JJ = Window:MakeTab({
-    Name = "Jogador",
-    Icon = "rbxassetid://18304402950",
-    PremiumOnly = false
-});
-local HouseTab = Window:MakeTab({
-    Name = "Casas",
-    Icon = "rbxassetid://109334249980199",
-    PremiumOnly = false
-});
-local TT = Window:MakeTab({
-    Name = "Troll",
-    Icon = "rbxassetid://72879917771754",
-    PremiumOnly = false
-});
-local utilitiesTab = Window:MakeTab({
-    Name = "ConfiguraÃ§Ãµes",
-    Icon = "rbxassetid://140270687691975",
-    PremiumOnly = false
-});
-local Section = CRD:AddSection({Name = "ðŸŽ„ Creator ðŸŽ„"});
-CRD:AddLabel("Dev - Scritp: CodeCraft / MatheuszinZK");
-local function copyText()
-    local textToCopy = "https://discord.gg/25ms";
-    setclipboard(textToCopy);
-    OrionLib:MakeNotification({
-        Name = "Texto Copiado",
-        Content = "O link do dc foi copiado para a Ã¡rea de transferÃªncia",
-        Image = "rbxassetid://15918472454",
-        Time = 5
-    });
-end
-CRD:AddButton({
-    Name = "Copiar Link Do nosso Doscord",
-    Callback = copyText
-});
-local Section = CRD:AddSection({Name = "Jogo Join"});
-local playerName = game.Players.LocalPlayer.Name;
-local gameName = "Unknown Game";
-local success, gameInfo = pcall(function()
-    return game:GetService("MarketplaceService"):GetProductInfo(
-                game.PlaceId);
-end);
-if (success and gameInfo) then gameName = gameInfo.Name; end
-CRD:AddLabel("Game Name: " .. gameName);
-local exploitCountLabel = CRD:AddLabel("Exploit Quantos: 0");
-local Section = HH:AddSection({Name = "Settings - Hub"});
-local Players = game:GetService("Players");
-local notificationsEnabled = true;
-local function showNotification(message, time)
-    if notificationsEnabled then
-        OrionLib:MakeNotification({
-            Name = "NotificaÃ§Ã£o",
-            Content = message,
-            Time = time or 5
-        });
-    end
-end
-Players.PlayerAdded:Connect(function(player)
-    showNotification(player.Name .. " entrou no jogo!", 5);
-end);
-Players.PlayerRemoving:Connect(function(player)
-    showNotification(player.Name .. " saiu do jogo!", 5);
-end);
-local notificationToggle;
-notificationToggle = HH:AddToggle({
-    Name = "NotificaÃ§Ã£o: Entrada/SaÃ­da",
-    Default = true,
-    Callback = function(Value)
-        notificationsEnabled = Value;
-    end
-});
-local playerCountLabel = HH:AddLabel("Pessoas: 0");
-local function updatePlayerCount()
-    local playerCount = #Players:GetPlayers();
-    playerCountLabel:Set("Pessoas: " .. playerCount);
-end
-Players.PlayerAdded:Connect(updatePlayerCount);
-Players.PlayerRemoving:Connect(updatePlayerCount);
-updatePlayerCount();
-local fpsLabel = HH:AddLabel("FPS: 0");
-local lastTime = tick();
-local frameCount = 0;
-local function updateFPS()
-    frameCount = frameCount + 1;
-    local currentTime = tick();
-    if ((currentTime - lastTime) >= 1) then
-        local fps = frameCount / (currentTime - lastTime);
-        fpsLabel:Set("FPS: " .. string.format("%.2f", fps));
-        lastTime = currentTime;
-        frameCount = 0;
-    end
-end
-local Section = HH:AddSection({Name = "Settings - Jogador"});
+    ConfigFolder = "Slayer HubConfig",
+    IntroEnabled = true,
+    IntroText = "Slayer Hub ",
+    Icon = "rbxassetid://1234567890" -- Substitua pelo ID da imagem
+})
+
+
+local Tab = Window:MakeTab({
+	Name = "Informações",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+    Name = "🛠️ Domain Slayer 🛠️",
+    Callback = function()
+        setclipboard("https://discord.gg/2hRUTwBNWG") -- Copia o link para a área de transferência
+        print("Link do Discord copiado!")
+    end    
+})
+
+
+Tab:AddParagraph("Devs","FJN, LORENZO e Wendell")
+
+local Tab = Window:MakeTab({
+	Name = "Início",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({Name = "Settings - Jogador"});
 local speedValue = 16;
-HH:AddTextbox({
+Tab:AddTextbox({
     Name = "Velocidade",
     Default = "16",
     TextDisappear = true,
@@ -139,9 +47,10 @@ HH:AddTextbox({
                 speedValue;
         end
     end
-});
+})
+
 local gravityValue = 196.2;
-HH:AddTextbox({
+Tab:AddTextbox({
     Name = "Set Gravity",
     Default = "196.2",
     TextDisappear = true,
@@ -153,8 +62,9 @@ HH:AddTextbox({
         end
     end
 });
+
 local jumpPower = 50;
-HH:AddTextbox({
+Tab:AddTextbox({
     Name = "Pulos",
     Default = "50",
     TextDisappear = true,
@@ -167,7 +77,8 @@ HH:AddTextbox({
         end
     end
 });
-HH:AddButton({
+
+Tab:AddButton({
     Name = "Reseta Velocidade/Gravidade/Pulos",
     Callback = function()
         jumpPower = 50;
@@ -180,7 +91,8 @@ HH:AddButton({
         game.Workspace.Gravity = gravityValue;
     end
 });
-local Section = HH:AddSection({Name = "Settings - Esp"});
+
+local Section = Tab:AddSection({Name = "Settings - Esp"});
 function isnil(thing) return thing == nil; end
 local function round(n)
     return math.floor(tonumber(n) + 0.5);
@@ -258,7 +170,8 @@ function UpdatePlayerChams()
         end);
     end
 end
-HH:AddToggle({
+
+Tab:AddToggle({
     Name = "Esp Nome",
     Default = false,
     Callback = function(value)
@@ -356,7 +269,8 @@ local function toggleESP(value)
         end
     end
 end
-HH:AddToggle({
+
+Tab:AddToggle({
     Name = "Esp Nome + Linhas",
     Default = false,
     Callback = function(value) toggleESP(value); end
@@ -385,8 +299,15 @@ end
 local function stopSpectating()
     Camera.CameraSubject = LocalPlayer.Character.Humanoid;
 end
-local Section = JJ:AddSection({Name = "Settings - Visualizar"});
-local playerDropdown = JJ:AddDropdown({
+
+local Tab = Window:MakeTab({
+	Name = "Jogador",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({Name = "Settings - Visualizar"});
+local playerDropdown = Tab:AddDropdown({
     Name = "Selecionar Jogador",
     Default = "",
     Options = {},
@@ -394,13 +315,13 @@ local playerDropdown = JJ:AddDropdown({
         selectedPlayer = value;
     end
 });
-JJ:AddButton({
+Tab:AddButton({
     Name = "Atualizar Lista",
     Callback = function()
         updatePlayerList(playerDropdown);
     end
 });
-JJ:AddToggle({
+Tab:AddToggle({
     Name = "Visualizar Jogador",
     Default = false,
     Callback = function(value)
@@ -412,7 +333,8 @@ JJ:AddToggle({
         end
     end
 });
-local Section = JJ:AddSection({Name = "Settings - Jogador"});
+
+local Section = Tab:AddSection({Name = "Settings - Jogador"});
 local Players = game:GetService("Players");
 local LocalPlayer = Players.LocalPlayer;
 local RunService = game:GetService("RunService");
@@ -444,7 +366,7 @@ RunService.RenderStepped:Connect(function()
         disableWallhack();
     end
 end);
-JJ:AddToggle({
+Tab:AddToggle({
     Name = "Travessa Paredes",
     Default = false,
     Callback = function(value)
@@ -464,12 +386,12 @@ local function onJumpRequest()
     end
 end
 UserInputService.JumpRequest:Connect(onJumpRequest);
-JJ:AddToggle({
+Tab:AddToggle({
     Name = "Pulos Infinitos",
     Default = false,
     Callback = function(t) infiniteJumpEnabled = t; end
 });
-local Section = JJ:AddSection({Name = "Settings - Teleporte"});
+local Section = Tab:AddSection({Name = "Settings - Teleporte"});
 local selectedPlayer = nil;
 local teleportEnabled = false;
 local function updatePlayerList()
@@ -491,7 +413,7 @@ local function teleportToPlayer()
         end
     end
 end
-JJ:AddDropdown({
+Tab:AddDropdown({
     Name = "Selecionar Jogador",
     Default = "",
     Options = updatePlayerList(),
@@ -502,7 +424,7 @@ JJ:AddDropdown({
         end
     end
 });
-JJ:AddButton({
+Tab:AddButton({
     Name = "Atualizar Lista",
     Callback = function()
         OrionLib:MakeNotification({
@@ -514,7 +436,7 @@ JJ:AddButton({
         JJ:UpdateDropdown("Selecionar Jogador", updatePlayerList());
     end
 });
-JJ:AddToggle({
+Tab:AddToggle({
     Name = "Ativa-Desativa Teleporte",
     Default = false,
     Callback = function(value)
@@ -536,10 +458,11 @@ game:GetService("RunService").Stepped:Connect(function()
         teleportToPlayer();
     end
 end);
-local Section = JJ:AddSection({
-    Name = "Settings - AlteraÃ§Ã£o De Nomes"
+
+local Section = Tab:AddSection({
+    Name = "Settings - Alterações De Nomes"
 });
-JJ:AddTextbox({
+Tab:AddTextbox({
     Name = "Altera Nome",
     Default = "Coloque o Nome aqui",
     TextDisappear = false,
@@ -549,7 +472,7 @@ JJ:AddTextbox({
             "1RPNam1eTex1t"):FireServer(unpack(args));
     end
 });
-JJ:AddTextbox({
+Tab:AddTextbox({
     Name = "Altera Bio Roleplay",
     Default = "Coloque o Nome aqui",
     TextDisappear = false,
@@ -559,7 +482,7 @@ JJ:AddTextbox({
             "1RPNam1eTex1t"):FireServer(unpack(args));
     end
 });
-local Section = JJ:AddSection({Name = "Settings - Random Color"});
+local Section = Tab:AddSection({Name = "Settings - Random Color"});
 local function getRandomColor()
     return Color3.new(math.random(), math.random(), math.random());
 end
@@ -585,7 +508,7 @@ local function changeBioColor()
     end
 end
 local nameColorToggle;
-nameColorToggle = JJ:AddToggle({
+nameColorToggle = Tab:AddToggle({
     Name = "Nome colorido",
     Default = false,
     Callback = function(Value)
@@ -600,7 +523,7 @@ nameColorToggle = JJ:AddToggle({
     end
 });
 local bioColorToggle;
-bioColorToggle = JJ:AddToggle({
+bioColorToggle = Tab:AddToggle({
     Name = "bio colorida",
     Default = false,
     Callback = function(Value)
@@ -614,6 +537,13 @@ bioColorToggle = JJ:AddToggle({
         end
     end
 });
+
+local HouseTab = Window:MakeTab({
+    Name = "Casas",
+    Icon = "rbxassetid://109334249980199",
+    PremiumOnly = false
+});
+
 local houseNumbers = {
     1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
@@ -680,28 +610,35 @@ HouseTab:AddButton({
         end
     end
 });
-local Section = TT:AddSection({Name = "Settings - Get"});
-TT:AddButton({
+
+local Tab = Window:MakeTab({
+	Name = "Troll",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({Name = "Settings - Get"});
+Tab:AddButton({
     Name = "Get guitarra (Sound)",
     Callback = function()
         loadstring(game:HttpGet(
                         "https://you.whimper.xyz/sources/slowed/1"))();
     end
 });
-TT:AddButton({
-    Name = "Get ViolÃ£o (Sound)",
+Tab:AddButton({
+    Name = "Get Violão (Sound)",
     Callback = function()
         loadstring(game:HttpGet(
                         "https://you.whimper.xyz/sources/slowed/2"))();
     end
 });
-TT:AddButton({
+Tab:AddButton({
     Name = "Get Sofa",
     Callback = function()
         loadstring(game:HttpGet("https://you.whimper.xyz/sources/slowed/3"))();
     end
 });
-TT:AddButton({
+Tab:AddButton({
     Name = "Get Tp Tool",
     Callback = function()
         mouse = game.Players.LocalPlayer:GetMouse();
@@ -717,8 +654,8 @@ TT:AddButton({
         tool.Parent = game.Players.LocalPlayer.Backpack;
     end
 });
-local Section = TT:AddSection({Name = "Settings - Humano"});
-TT:AddButton({
+local Section = Tab:AddSection({Name = "Settings - Humano"});
+Tab:AddButton({
     Name = "Ficar Pequeno",
     Callback = function()
         local args = {
@@ -729,7 +666,7 @@ TT:AddButton({
         game:GetService("ReplicatedStorage").RE:FindFirstChild("1Clothe1s"):FireServer(unpack(args))
     end
 });
-TT:AddButton({
+Tab:AddButton({
     Name = "Voltar Tamanho Normal",
     Callback = function()
         game:GetService("ReplicatedStorage").RE:FindFirstChild("1Clothe1s"):FireServer(unpack(args));
@@ -738,7 +675,7 @@ TT:AddButton({
 local TweenService = game:GetService("TweenService");
 local Players = game:GetService("Players");
 local LocalPlayer = Players.LocalPlayer;
-local Section = TT:AddSection({Name = "Settings - Orbitar"});
+local Section = Tab:AddSection({Name = "Settings - Orbitar"});
 local selectedPlayer;
 local orbiting = false;
 local function getPlayers()
@@ -750,7 +687,7 @@ local function getPlayers()
     end
     return playerNames;
 end
-local playerDropdown = TT:AddDropdown({
+local playerDropdown = Tab:AddDropdown({
     Name = "Select Player",
     Default = "",
     Options = getPlayers(),
@@ -758,7 +695,7 @@ local playerDropdown = TT:AddDropdown({
         selectedPlayer = Players:FindFirstChild(value);
     end
 });
-TT:AddToggle({
+Tab:AddToggle({
     Name = "Start Orbit",
     Default = false,
     Callback = function(value)
@@ -801,138 +738,3 @@ local function disableLaggyFeatures()
         end
     end
 end
-utilitiesTab:AddToggle({
-    Name = "Anti Sit",
-    Default = true,
-    Callback = function(value)
-        if value then
-            RunService.Stepped:Connect(function()
-                if (LocalPlayer.Character and
-                    LocalPlayer.Character:FindFirstChild("Humanoid")) then
-                    if LocalPlayer.Character.Humanoid.Sit then
-                        LocalPlayer.Character.Humanoid.Sit = false;
-                    end
-                end
-            end);
-        end
-    end
-});
-utilitiesTab:AddToggle({
-    Name = "Anti Void",
-    Default = true,
-    Callback = function(value)
-        if value then
-            RunService.Stepped:Connect(function()
-                if (LocalPlayer.Character and
-                    LocalPlayer.Character:FindFirstChild(
-                        "HumanoidRootPart")) then
-                    if (LocalPlayer.Character.HumanoidRootPart
-                        .Position.Y < -50) then
-                        LocalPlayer.Character.HumanoidRootPart
-                            .CFrame = CFrame.new(0, 50, 0);
-                    end
-                end
-            end);
-        end
-    end
-});
-utilitiesTab:AddToggle({
-    Name = "Auto Rejoin",
-    Default = true,
-    Callback = function(value)
-        if value then
-            game:GetService("CoreGui").RobloxPromptGui.promptOverlay
-                .ChildAdded:Connect(function(child)
-                if (child.Name == "ErrorPrompt") then
-                    TeleportService:Teleport(game.PlaceId,
-                                                LocalPlayer);
-                end
-            end);
-        end
-    end
-});
-utilitiesTab:AddToggle({
-    Name = "Anti Lag",
-    Default = true,
-    Callback = function(value)
-        if value then
-            disableLaggyFeatures();
-            workspace.DescendantAdded:Connect(
-                function(descendant)
-                    if (descendant:IsA("ParticleEmitter") or
-                        descendant:IsA("Trail") or
-                        descendant:IsA("Smoke") or
-                        descendant:IsA("Fire")) then
-                        descendant.Enabled = false;
-                    end
-                end);
-        end
-    end
-});
-local Section = utilitiesTab:AddSection({Name = "Settings"});
-utilitiesTab:AddButton({
-    Name = "Teleporta Pro Spaw",
-    Callback = function()
-        if (LocalPlayer.Character and
-            LocalPlayer.Character:FindFirstChild("HumanoidRootPart")) then
-            LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(0, 50, 0);
-        end
-    end
-});
-local function removeLag()
-    for _, part in pairs(workspace:GetDescendants()) do
-        if part:IsA("BasePart") then
-            if not part.Visible then
-                part:Destroy();
-            elseif (part.Transparency >= 1) then
-                part:Destroy();
-            end
-        end
-    end
-    for _, light in pairs(workspace:GetDescendants()) do
-        if light:IsA("Light") then
-            if (not light.Parent or not light.Parent.Parent) then
-                light:Destroy();
-            end
-        end
-    end
-    for _, texture in pairs(workspace:GetDescendants()) do
-        if texture:IsA("Texture") then
-            if (texture.Parent and not texture.Parent.Visible) then
-                texture:Destroy();
-            end
-        end
-    end
-    OrionLib:MakeNotification({
-        Name = "Removendo...",
-        Content = "Texturas, luzes e objetos invisÃ­veis foram removidos.",
-        Time = 5
-    });
-end
-utilitiesTab:AddButton({
-    Name = "Remover Lag",
-    Callback = function() removeLag(); end
-});
-game:GetService("RunService").RenderStepped:Connect(updateESP);
-updatePlayerList(playerDropdown);
-RunService.RenderStepped:Connect(updateFPS);
-OrionLib:Init();
-print("Hi World :D");
-local function detectExploits()
-    local exploitCount = 0;
-    for _, player in ipairs(Players:GetPlayers()) do
-        if (player:FindFirstChild("HumanoidRootPart") and
-            player.HumanoidRootPart.Anchored) then
-            exploitCount = exploitCount + 1;
-        end
-    end
-    return exploitCount;
-end
-local function updateExploitCount()
-    local exploitCount = detectExploits();
-    exploitCountLabel:Set("Exploit Quantos: " .. exploitCount);
-end
-Players.PlayerAdded:Connect(updateExploitCount);
-Players.PlayerRemoving:Connect(updateExploitCount);
-updateExploitCount();
