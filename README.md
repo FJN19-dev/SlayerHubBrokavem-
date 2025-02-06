@@ -738,6 +738,42 @@ local function disableLaggyFeatures()
         end
     end
 end
+
+Tab:AddToggle({
+    Name = "Jogar no Void (Se Estiver no Sofá)",
+    Default = false,
+    Save = true,
+    Flag = "toggle",
+    Callback = function(Value)
+        toggleAtivo = Value
+        print("Toggle alterado para:", Value)
+    end
+})
+
+-- Loop para monitorar o Toggle e jogar no Void se estiver ativado
+task.spawn(function()
+    while true do
+        task.wait(1) -- Aguarda 1 segundo antes de verificar novamente
+        
+        if toggleAtivo then
+            local player = game.Players.LocalPlayer
+            local character = player.Character
+
+            if character and character:FindFirstChild("Humanoid") then
+                local humanoid = character.Humanoid
+                -- Verifica se o jogador está sentado
+                if humanoid.Sit then
+                    -- Move o jogador para o Void
+                    character.HumanoidRootPart.CFrame = CFrame.new(0, -500, 0)
+                    print("Jogador estava sentado e foi lançado no Void!")
+                else
+                    print("Você precisa estar sentado em um sofá para ser jogado no Void!")
+                end
+            end
+        end
+    end
+end)
+
 local utilitiesTab = Window:MakeTab({
     Name = "Configurações",
     Icon = "rbxassetid://140270687691975",
