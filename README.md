@@ -739,6 +739,8 @@ local function disableLaggyFeatures()
     end
 end
 
+local toggleAtivo = false -- Variável para armazenar o estado do toggle
+
 Tab:AddToggle({
     Name = "Jogar no Void (Se Estiver no Sofá)",
     Default = false,
@@ -761,11 +763,26 @@ task.spawn(function()
 
             if character and character:FindFirstChild("Humanoid") then
                 local humanoid = character.Humanoid
-                -- Verifica se o jogador está sentado
+                
+                -- Verifica se o jogador está sentado em um assento (sofá)
                 if humanoid.Sit then
-                    -- Move o jogador para o Void
-                    character.HumanoidRootPart.CFrame = CFrame.new(0, -500, 0)
-                    print("Jogador estava sentado e foi lançado no Void!")
+                    -- Tenta desativar temporariamente as restrições do jogo
+                    for _, v in pairs(character:GetDescendants()) do
+                        if v:IsA("BasePart") then
+                            v.Anchored = false
+                            v.CanCollide = false
+                        end
+                    end
+                    
+                    -- Move o jogador para um local muito abaixo do mapa
+                    local root = character:FindFirstChild("HumanoidRootPart")
+                    if root then
+                        root.Velocity = Vector3.new(0, -500, 0) -- Empurra para baixo
+                        root.CFrame = root.CFrame * CFrame.new(0, -1000, 0) -- Move para o Void
+                        print("Jogador estava sentado e foi lançado no Void!")
+                    else
+                        print("HumanoidRootPart não encontrada!")
+                    end
                 else
                     print("Você precisa estar sentado em um sofá para ser jogado no Void!")
                 end
@@ -787,7 +804,7 @@ utilitiesTab:AddToggle({
         if value then
             RunService.Stepped:Connect(function()
                 if (LocalPlayer.Character and
-                    LocalPlayer.Character:FindFirstChild("Humanoid")) then
+                   LocalPlayer.Character:FindFirstChild("Humanoid")) then
                     if LocalPlayer.Character.Humanoid.Sit then
                         LocalPlayer.Character.Humanoid.Sit = false;
                     end
